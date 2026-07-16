@@ -1,0 +1,142 @@
+@import "tailwindcss";
+
+@import "@fontsource/cormorant-garamond/400.css";
+@import "@fontsource/cormorant-garamond/500.css";
+@import "@fontsource/cormorant-garamond/600.css";
+
+@import "@fontsource/manrope/300.css";
+@import "@fontsource/manrope/400.css";
+@import "@fontsource/manrope/500.css";
+@import "@fontsource/manrope/600.css";
+@import "@fontsource/manrope/700.css";
+
+@source "./";
+
+/* ===========================
+   Theme
+=========================== */
+
+@theme {
+  --font-serif: "Cormorant Garamond", serif;
+  --font-sans: "Manrope", sans-serif;
+
+  --color-cream: #fbf7f2;
+  --color-brand-maroon: #8b1e24;
+  --color-brand-orange: #e58a2d;
+  --color-brand-dark: #2b1c17;
+  --color-brand-muted: #64554d;
+  --color-brand-border: #e6ddd2;
+
+  --shadow-soft: 0 10px 30px -12px rgba(0, 0, 0, 0.15);
+  --shadow-float: 0 20px 45px -15px rgba(0, 0, 0, 0.22);
+}
+
+/* ===========================
+   Base Styles
+=========================== */
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--color-cream);
+    color: var(--color-brand-dark);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+
+  button {
+    cursor: pointer;
+  }
+}
+
+/* ===========================
+   Custom Utilities
+=========================== */
+
+@utility eyebrow {
+  color: var(--color-brand-orange);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+/* ===========================
+   Components
+=========================== */
+
+@layer components {
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    padding: 0.9rem 1.75rem;
+
+    border-radius: 0.6rem;
+
+    background: var(--color-brand-maroon);
+    color: white;
+
+    font-weight: 500;
+
+    transition: all 0.25s ease;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    padding: 0.9rem 1.75rem;
+
+    border: 1px solid var(--color-brand-maroon);
+
+    border-radius: 0.6rem;
+
+    background: white;
+
+    color: var(--color-brand-maroon);
+
+    font-weight: 500;
+
+    transition: all 0.25s ease;
+  }
+
+  .btn-outline:hover {
+    background: var(--color-brand-maroon);
+    color: white;
+  }
+}
