@@ -1,6 +1,9 @@
 import bcrypt from "bcrypt";
+import { OAuth2Client } from "google-auth-library";
 import User from "../models/User.js";
 import generateToken from "../utils/generateToken.js";
+
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 // ======================
 // Register User
@@ -134,7 +137,26 @@ export const logoutUser = async (req, res) => {
 };
 export const googleAuth = async (req, res) => {
     try {
-        const { name, email, googleId, profilePicture } = req.body;
+        const { credential } = req.body;
+
+        if (!credential) {
+            return res.status(400).json({
+                message: "Missing required fields",
+            });
+        }
+
+        // Verify the Google ID token and pull the real user info out of it
+        const ticket = await googleClient.verifyIdToken({
+            idToken: credential,
+            audience: process.env.GOOGLE_CLIENT_ID,
+        });
+
+        const payload = ticket.getPayload();
+
+        const email = payload.email;
+        const googleId = payload.sub;
+        const name = payload.name;
+        const profilePicture = payload.picture;
 
         if (!email || !googleId) {
             return res.status(400).json({
