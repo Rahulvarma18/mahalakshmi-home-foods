@@ -187,14 +187,6 @@ function Auth() {
 
                 </div>
 
-                <div className="mt-6 border-t border-brand-border pt-6 text-center text-xs leading-relaxed text-brand-muted">
-
-                    <p>
-                        Authentication is now powered by your
-                        Express + MongoDB backend.
-                    </p>
-
-                </div>
 
             </div>
 
