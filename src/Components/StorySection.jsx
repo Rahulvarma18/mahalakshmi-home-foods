@@ -1,18 +1,28 @@
-import cat1 from "../assets/category1.jpg";
+import cat1 from "../assets/story.jpg";
+import { motion } from "framer-motion";
 
 const StorySection = () => {
     return (
-        <section id="story" className="py-24 px-5 md:px-20 bg-white">
+        <section id="story" className="scroll-mt-24 py-24 px-5 md:px-20 bg-white">
             <div className="max-w-[1400px] mx-auto grid lg:grid-cols-2 gap-14 items-center">
 
-                <img
+                <motion.img
                     src={cat1}
                     alt="Traditional preparation"
                     loading="lazy"
                     className="w-full aspect-[5/4] object-cover rounded-md"
+                    initial={{ opacity: 0, x: -50 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, amount: 0.4 }}
+                    transition={{ duration: 0.7, ease: "easeOut" }}
                 />
 
-                <div>
+                <motion.div
+                    initial={{ opacity: 0, x: 50 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, amount: 0.4 }}
+                    transition={{ duration: 0.7, ease: "easeOut", delay: 0.15 }}
+                >
                     <p className="eyebrow mb-4">
                         Our Story
                     </p>
@@ -31,7 +41,7 @@ const StorySection = () => {
                         No preservatives, no shortcuts. Every box carries the warmth of a
                         home kitchen straight to your table.
                     </p>
-                </div>
+                </motion.div>
 
             </div>
         </section>
