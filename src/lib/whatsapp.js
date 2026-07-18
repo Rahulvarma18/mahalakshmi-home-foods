@@ -1,6 +1,6 @@
 // Your WhatsApp business number, in international format with no
 // "+", spaces, or leading zeros (matches the wa.me link format).
-export const WHATSAPP_NUMBER = "916304776484";
+export const WHATSAPP_NUMBER = "917780367903";
 
 // Builds a readable order summary and points an already-open browser tab
 // at the wa.me link for it. The tab must be opened synchronously on the
