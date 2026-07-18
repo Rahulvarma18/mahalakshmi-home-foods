@@ -11,6 +11,10 @@ import Checkout from "./pages/Checkout";
 import Orders from "./pages/Orders";
 import Auth from "./pages/Auth";
 import Admin from "./pages/Admin";
+import Contact from "./pages/Contact";
+import ShippingPolicy from "./pages/ShippingPolicy";
+import About from "./pages/About";
+import OurStory from "./pages/OurStory";
 import ScrollToTop from "./Components/ScrollToTop";
 function App() {
   return (
@@ -26,6 +30,10 @@ function App() {
         <Route path="/orders" element={<Orders />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/shipping-policy" element={<ShippingPolicy />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/our-story" element={<OurStory />} />
       </Routes>
 
       <Footer />

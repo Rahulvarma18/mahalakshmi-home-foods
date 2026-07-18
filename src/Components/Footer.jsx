@@ -106,27 +106,27 @@ const Footer = () => {
 
                     <ul className="space-y-3 text-white/70">
                         <li>
-                            <a href="#" className="hover:text-brand-orange">
+                            <Link to="/about" className="hover:text-brand-orange">
                                 About Us
-                            </a>
+                            </Link>
                         </li>
 
                         <li>
-                            <a href="#story" className="hover:text-brand-orange">
+                            <Link to="/our-story" className="hover:text-brand-orange">
                                 Our Story
-                            </a>
+                            </Link>
                         </li>
 
                         <li>
-                            <a href="#" className="hover:text-brand-orange">
+                            <Link to="/contact" className="hover:text-brand-orange">
                                 Contact
-                            </a>
+                            </Link>
                         </li>
 
                         <li>
-                            <a href="#" className="hover:text-brand-orange">
+                            <Link to="/shipping-policy" className="hover:text-brand-orange">
                                 Shipping Policy
-                            </a>
+                            </Link>
                         </li>
                     </ul>
                 </div>
@@ -145,12 +145,12 @@ const Footer = () => {
 
                         <li className="flex items-center gap-3">
                             <FaPhoneAlt className="text-brand-orange shrink-0" />
-                            +91 98765 43210
+                            +91 77803 67903
                         </li>
 
                         <li className="flex items-center gap-3">
                             <FaEnvelope className="text-brand-orange shrink-0" />
-                            hello@mahalakshmi.com
+                            venkatnallaias@gmail.com
                         </li>
                     </ul>
                 </div>
