@@ -35,39 +35,33 @@ export const updateProduct = async (id, product) => {
 
 };
 
-export const deleteProduct = async (id) => {
-
-    const res = await API.delete(`/products/${id}`);
-
-    return res.data;
-
-};
-
-// Admin-only. Uploads a single image file to Cloudinary and returns
-// { url, publicId }. Use the returned url as the product's `image` field.
+// Admin-only. Uploads a single image file to Cloudinary via the backend
+// and returns { url }. Use the returned url as the product's image field.
 export const uploadProductImage = async (file) => {
 
     const formData = new FormData();
     formData.append("image", file);
 
-    const res = await API.post("/products/upload-image", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+    const res = await API.post("/products/upload-image", formData);
+
+    return res.data;
+
+};
+
+// Admin-only. Deletes an uploaded image from Cloudinary by its URL.
+export const deleteProductImage = async (url) => {
+
+    const res = await API.delete("/products/delete-image", {
+        data: { url },
     });
 
     return res.data;
 
 };
 
-// Admin-only. Uploads up to 6 image files to Cloudinary and returns
-// { images: [{ url, publicId }, ...] }.
-export const uploadProductGalleryImages = async (files) => {
+export const deleteProduct = async (id) => {
 
-    const formData = new FormData();
-    Array.from(files).forEach((file) => formData.append("images", file));
-
-    const res = await API.post("/products/upload-gallery", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-    });
+    const res = await API.delete(`/products/${id}`);
 
     return res.data;
 

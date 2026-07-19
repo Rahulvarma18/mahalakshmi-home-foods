@@ -7,7 +7,6 @@ import {
     FaArrowLeft,
 } from "react-icons/fa";
 import { toast } from "sonner";
-import { cldUrl } from "../lib/cloudinary";
 
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
@@ -38,6 +37,20 @@ function Product() {
     const [selectedWeight, setSelectedWeight] = useState("");
 
     const [reviewSort, setReviewSort] = useState("helpful");
+
+    // If the customer switches to a variant with less stock than their
+    // current quantity, pull the quantity back down to what's available.
+    // Placed here (before the loading/not-found early returns below) so
+    // hook order stays consistent across renders.
+    useEffect(() => {
+        const variant = product?.variants?.find(
+            (v) => v.weight === selectedWeight
+        );
+
+        const variantStock = variant?.stock ?? 0;
+
+        setQty((q) => (variantStock > 0 ? Math.min(q, variantStock) : 1));
+    }, [product, selectedWeight]);
 
     const [eligibility, setEligibility] = useState(null);
 
@@ -221,6 +234,10 @@ function Product() {
     const oldPrice =
         currentVariant?.oldPrice || null;
 
+    const stock = currentVariant?.stock ?? 0;
+    const outOfStock = stock <= 0;
+    const lowStock = !outOfStock && stock <= 5;
+
     const sortedReviews = [...(product.reviews || [])].sort(
         (a, b) => {
 
@@ -290,7 +307,7 @@ function Product() {
                 <div className="overflow-hidden rounded-xl bg-muted aspect-[4/5]">
 
                     <img
-                        src={cldUrl(selectedImage, { width: 900 })}
+                        src={selectedImage}
                         alt={product.name}
                         className="w-full h-full object-cover transition duration-500 hover:scale-125 cursor-zoom-in"
                     />
@@ -315,9 +332,8 @@ function Product() {
                             >
 
                                 <img
-                                    src={cldUrl(image, { width: 150 })}
+                                    src={image}
                                     alt=""
-                                    loading="lazy"
                                     className="aspect-square object-cover w-full h-full"
                                 />
 
@@ -346,6 +362,20 @@ function Product() {
                     {product.name}
 
                 </h1>
+
+                {outOfStock ? (
+
+                    <span className="inline-block mb-5 rounded-full bg-red-100 px-4 py-1.5 text-sm font-semibold text-red-700">
+                        Out of Stock
+                    </span>
+
+                ) : lowStock ? (
+
+                    <span className="inline-block mb-5 rounded-full bg-orange-100 px-4 py-1.5 text-sm font-semibold text-brand-orange">
+                        Only {stock} left
+                    </span>
+
+                ) : null}
 
                 {/* Rating */}
 
@@ -461,7 +491,8 @@ function Product() {
                             onClick={() =>
                                 setQty((q) => Math.max(1, q - 1))
                             }
-                            className="px-4 py-3 hover:bg-cream"
+                            disabled={outOfStock}
+                            className="px-4 py-3 hover:bg-cream disabled:opacity-40 disabled:cursor-not-allowed"
                         >
                             <FaMinus />
                         </button>
@@ -473,8 +504,11 @@ function Product() {
                         </div>
 
                         <button
-                            onClick={() => setQty((q) => q + 1)}
-                            className="px-4 py-3 hover:bg-cream"
+                            onClick={() =>
+                                setQty((q) => Math.min(stock, q + 1))
+                            }
+                            disabled={outOfStock || qty >= stock}
+                            className="px-4 py-3 hover:bg-cream disabled:opacity-40 disabled:cursor-not-allowed"
                         >
                             <FaPlus />
                         </button>
@@ -483,7 +517,7 @@ function Product() {
 
                     <button
                         className="btn-primary flex-1 justify-center disabled:opacity-60"
-                        disabled={addingToCart}
+                        disabled={addingToCart || outOfStock}
                         onClick={async () => {
 
                             try {
@@ -509,7 +543,7 @@ function Product() {
                         }}
                     >
 
-                        Add To Cart
+                        {outOfStock ? "Out of Stock" : "Add To Cart"}
 
                     </button>
 
@@ -519,31 +553,25 @@ function Product() {
 
                 <button
                     className="btn-outline w-full justify-center disabled:opacity-60"
-                    disabled={addingToCart}
-                    onClick={async () => {
+                    disabled={outOfStock}
+                    onClick={() => {
 
-                        try {
-
-                            setAddingToCart(true);
-
-                            await add(product._id, qty, selectedWeight);
-
-                            navigate("/checkout");
-
-                        } catch (error) {
-
-                            toast.error("Could not add item to cart");
-
-                        } finally {
-
-                            setAddingToCart(false);
-
-                        }
+                        // Doesn't touch the cart at all — Checkout reads
+                        // this single item straight from route state.
+                        navigate("/checkout", {
+                            state: {
+                                buyNow: {
+                                    productId: product._id,
+                                    weight: selectedWeight,
+                                    qty,
+                                },
+                            },
+                        });
 
                     }}
                 >
 
-                    Buy Now →
+                    {outOfStock ? "Currently Unavailable" : "Buy Now →"}
 
                 </button>
 

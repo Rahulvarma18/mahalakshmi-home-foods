@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 import { useAuth } from "../context/AuthContext";
@@ -18,6 +18,13 @@ function Checkout() {
     const [loadingProducts, setLoadingProducts] = useState(true);
 
     const navigate = useNavigate();
+
+    const location = useLocation();
+
+    // If we got here via a product page's "Buy Now" button, this holds
+    // just that one item — checkout works off it instead of the saved
+    // cart, and the cart is never touched in this flow.
+    const buyNowItem = location.state?.buyNow || null;
 
     const [form, setForm] = useState({
         name: user?.name || "",
@@ -46,7 +53,9 @@ function Checkout() {
     }, []);
 
     const rows = useMemo(() => {
-        return items
+        const sourceItems = buyNowItem ? [buyNowItem] : items;
+
+        return sourceItems
             .map((item) => {
                 const product = products.find((p) => p._id === item.productId);
 
@@ -65,7 +74,7 @@ function Checkout() {
                 };
             })
             .filter(Boolean);
-    }, [items, products]);
+    }, [items, products, buyNowItem]);
 
     const subtotal = rows.reduce(
         (sum, row) => sum + row.variant.price * row.qty,
@@ -83,7 +92,7 @@ function Checkout() {
         form.city &&
         form.pincode.length >= 6;
 
-    const placeOrder = async () => {
+    const placeOrder = async (whatsappWindow) => {
         if (placingOrder) return;
 
         if (!user) {
@@ -91,19 +100,18 @@ function Checkout() {
 
             navigate("/auth?redirect=/checkout");
 
+            whatsappWindow?.close();
+
             return;
         }
 
         if (!canPlace) {
             toast.error("Please fill all delivery details");
 
+            whatsappWindow?.close();
+
             return;
         }
-
-        // Must happen synchronously, right here on the click, or the
-        // browser's popup blocker will silently swallow it once we're
-        // past the first `await` below.
-        const whatsappTab = window.open("", "_blank");
 
         setPlacingOrder(true);
 
@@ -142,15 +150,23 @@ function Checkout() {
 
             setPlacingOrder(false);
 
-            whatsappTab?.close();
+            whatsappWindow?.close();
 
             return;
         }
 
-        // Order is saved in your DB either way — this just also hands the
-        // customer off to WhatsApp with the full order pre-filled so you
-        // get it as a message too, since there's no live payment gateway.
-        openWhatsAppOrder(whatsappTab, {
+        if (!buyNowItem) {
+            try {
+                await clear();
+            } catch (error) {
+                console.error("Failed to clear cart after order:", error);
+            }
+        }
+
+        // Redirect the already-open tab to the wa.me link — the order
+        // stays "Pending Approval" in the customer's account until an
+        // admin reviews this message and marks it "Placed".
+        openWhatsAppOrder(whatsappWindow, {
             rows,
             address: orderPayload.address,
             subtotal,
@@ -159,13 +175,9 @@ function Checkout() {
             payment: form.payment,
         });
 
-        try {
-            await clear();
-        } catch (error) {
-            console.error("Failed to clear cart after order:", error);
-        }
-
-        toast.success("Order saved! Send the WhatsApp message to confirm it.");
+        toast.success(
+            "Order request sent! We'll confirm it on WhatsApp shortly."
+        );
 
         navigate("/orders");
     };
@@ -293,6 +305,7 @@ function Checkout() {
 
                             {["COD", "Online"].map(
                                 (payment) => {
+
                                     const disabled = payment === "Online";
 
                                     return (
@@ -300,10 +313,10 @@ function Checkout() {
                                         <label
                                             key={payment}
                                             className={`flex items-center gap-4 rounded-md border p-4 transition ${disabled
-                                                ? "cursor-not-allowed opacity-60 border-brand-border"
-                                                : "cursor-pointer " + (form.payment === payment
-                                                    ? "border-brand-maroon bg-cream"
-                                                    : "border-brand-border")
+                                                ? "cursor-not-allowed border-brand-border opacity-50"
+                                                : form.payment === payment
+                                                    ? "cursor-pointer border-brand-maroon bg-cream"
+                                                    : "cursor-pointer border-brand-border"
                                                 }`}
                                         >
 
@@ -315,7 +328,6 @@ function Checkout() {
                                                     payment
                                                 }
                                                 onChange={() =>
-                                                    !disabled &&
                                                     setForm({
                                                         ...form,
                                                         payment,
@@ -323,7 +335,7 @@ function Checkout() {
                                                 }
                                             />
 
-                                            <div className="flex-1">
+                                            <div>
 
                                                 <h3 className="flex items-center gap-2 font-medium">
 
@@ -332,7 +344,7 @@ function Checkout() {
                                                         : "Online Payment"}
 
                                                     {disabled && (
-                                                        <span className="rounded-full bg-brand-border/40 px-2 py-0.5 text-xs font-normal text-brand-muted">
+                                                        <span className="rounded-full bg-brand-border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-brand-muted">
                                                             Coming Soon
                                                         </span>
                                                     )}
@@ -342,8 +354,8 @@ function Checkout() {
                                                 <p className="text-sm text-brand-muted">
 
                                                     {payment === "COD"
-                                                        ? "Pay in cash when your order is delivered. We'll confirm everything with you on WhatsApp."
-                                                        : "Online payments aren't available yet."}
+                                                        ? "Pay after delivery."
+                                                        : "Online payment isn't available yet — please use Cash on Delivery for now."}
 
                                                 </p>
 
@@ -352,6 +364,7 @@ function Checkout() {
                                         </label>
 
                                     );
+
                                 }
                             )}
 
@@ -431,16 +444,19 @@ function Checkout() {
                     </div>
 
                     <button
-                        onClick={placeOrder}
+                        onClick={() => {
+                            // Must open synchronously, inside the click handler,
+                            // before any await — otherwise the browser's popup
+                            // blocker silently kills it and the tab sits blank.
+                            const whatsappWindow = window.open("", "_blank");
+
+                            placeOrder(whatsappWindow);
+                        }}
                         disabled={placingOrder}
                         className="btn-primary mt-6 w-full justify-center disabled:opacity-60"
                     >
-                        {placingOrder ? "Saving Order…" : "Continue on WhatsApp to Confirm →"}
+                        {placingOrder ? "Placing Order…" : "Place Order on WhatsApp →"}
                     </button>
-
-                    <p className="mt-3 text-center text-xs text-brand-muted">
-                        Your order is saved as Pending — send the WhatsApp message and we'll confirm it with you directly.
-                    </p>
 
                 </aside>
 

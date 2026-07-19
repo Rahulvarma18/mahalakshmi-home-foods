@@ -3,7 +3,6 @@ import { FaStar } from "react-icons/fa";
 import { useCart } from "../context/CartContext";
 import { toast } from "sonner";
 import { useState } from "react";
-import { cldUrl } from "../lib/cloudinary";
 
 const ProductCard = ({ product }) => {
 
@@ -24,6 +23,10 @@ const ProductCard = ({ product }) => {
             ? `-${Math.round(((oldPrice - price) / oldPrice) * 100)}%`
             : null;
 
+    const outOfStock = !(product.variants || []).some(
+        (v) => (v.stock ?? 0) > 0
+    );
+
     return (
         <div className="group flex flex-col h-full transition-transform duration-300 hover:-translate-y-2">
 
@@ -34,24 +37,33 @@ const ProductCard = ({ product }) => {
                 className="relative block overflow-hidden rounded-md aspect-[4/5] bg-muted"
             >
 
-                {product.bestSeller && (
+                {product.bestSeller && !outOfStock && (
                     <span className="absolute top-3 left-3 z-10 bg-brand-maroon text-white text-[10px] font-bold tracking-widest px-3 py-1 rounded-full">
                         BEST SELLER
                     </span>
                 )}
 
-                {discount && (
+                {discount && !outOfStock && (
                     <span className="absolute top-3 right-3 z-10 bg-brand-orange text-white text-xs font-bold px-2.5 py-1 rounded-full">
                         {discount}
                     </span>
                 )}
 
                 <img
-                    src={cldUrl(product.image, { width: 500 })}
+                    src={product.image}
                     alt={product.name}
                     loading="lazy"
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${outOfStock ? "grayscale opacity-70" : ""
+                        }`}
                 />
+
+                {outOfStock && (
+                    <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/40">
+                        <span className="bg-white text-brand-dark text-xs font-bold tracking-widest px-4 py-2 rounded-full">
+                            OUT OF STOCK
+                        </span>
+                    </div>
+                )}
 
             </Link>
 
@@ -99,7 +111,7 @@ const ProductCard = ({ product }) => {
                     </div>
 
                     <button
-                        disabled={adding}
+                        disabled={adding || outOfStock}
                         onClick={async () => {
                             try {
                                 setAdding(true);
@@ -115,9 +127,9 @@ const ProductCard = ({ product }) => {
                                 setAdding(false);
                             }
                         }}
-                        className="text-sm font-medium text-brand-maroon hover:text-brand-dark transition disabled:opacity-60"
+                        className="text-sm font-medium text-brand-maroon hover:text-brand-dark transition disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-brand-maroon"
                     >
-                        Add +
+                        {outOfStock ? "Out of Stock" : "Add +"}
                     </button>
 
                 </div>

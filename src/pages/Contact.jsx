@@ -35,7 +35,7 @@ function Contact() {
                                 Call Us
                             </h3>
                             <a
-                                href="tel:+919876543210"
+                                href="tel:+917780367903"
                                 className="text-brand-muted hover:text-brand-maroon"
                             >
                                 +91 77803 67903
@@ -50,10 +50,10 @@ function Contact() {
                                 Email Us
                             </h3>
                             <a
-                                href="mailto:hello@mahalakshmi.com"
+                                href="mailto:venkatnallaias@gmail.com"
                                 className="text-brand-muted hover:text-brand-maroon"
                             >
-                                hello@mahalakshmi.com
+                                venkatnallaias@gmail.com
                             </a>
                         </div>
                     </div>

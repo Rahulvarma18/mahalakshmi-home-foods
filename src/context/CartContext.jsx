@@ -77,13 +77,6 @@ export function CartProvider({ children }) {
     // (e.g. React StrictMode's double-invoked effects in development).
     const hasMergedRef = useRef(false);
 
-    // Keep the guest cart persisted while logged out.
-    useEffect(() => {
-        if (!user) {
-            writeGuestCart(items);
-        }
-    }, [items, user]);
-
     // Whenever auth state settles or changes, load the right cart:
     // - logged in + guest items waiting  -> merge them into the backend cart
     // - logged in, nothing to merge      -> just fetch the backend cart
@@ -143,15 +136,17 @@ export function CartProvider({ children }) {
                     (item) => item.productId === productId && item.weight === weight
                 );
 
-                if (existing) {
-                    return prev.map((item) =>
+                const next = existing
+                    ? prev.map((item) =>
                         item.productId === productId && item.weight === weight
                             ? { ...item, qty: item.qty + qty }
                             : item
-                    );
-                }
+                    )
+                    : [...prev, { productId, qty, weight }];
 
-                return [...prev, { productId, qty, weight }];
+                writeGuestCart(next);
+
+                return next;
             });
         },
         [user]
@@ -165,11 +160,15 @@ export function CartProvider({ children }) {
                 return;
             }
 
-            setItems((prev) =>
-                prev.filter(
+            setItems((prev) => {
+                const next = prev.filter(
                     (item) => !(item.productId === productId && item.weight === weight)
-                )
-            );
+                );
+
+                writeGuestCart(next);
+
+                return next;
+            });
         },
         [user]
     );
@@ -184,13 +183,17 @@ export function CartProvider({ children }) {
                 return;
             }
 
-            setItems((prev) =>
-                prev.map((item) =>
+            setItems((prev) => {
+                const next = prev.map((item) =>
                     item.productId === productId && item.weight === weight
                         ? { ...item, qty }
                         : item
-                )
-            );
+                );
+
+                writeGuestCart(next);
+
+                return next;
+            });
         },
         [user]
     );
@@ -198,6 +201,8 @@ export function CartProvider({ children }) {
     const clear = useCallback(async () => {
         if (user) {
             await apiClearCart();
+        } else {
+            writeGuestCart([]);
         }
 
         setItems([]);
