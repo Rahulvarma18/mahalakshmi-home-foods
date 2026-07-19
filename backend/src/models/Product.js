@@ -13,6 +13,11 @@ const variantSchema = new mongoose.Schema(
         },
 
         oldPrice: Number,
+
+        stock: {
+            type: Number,
+            default: 0,
+        },
     },
     { _id: false }
 );
@@ -108,11 +113,6 @@ const productSchema = new mongoose.Schema(
         storage: String,
 
         delivery: String,
-
-        stock: {
-            type: Number,
-            default: 0,
-        },
 
         sku: String,
 

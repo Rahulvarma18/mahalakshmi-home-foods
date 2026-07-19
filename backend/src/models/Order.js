@@ -92,8 +92,23 @@ const orderSchema = new mongoose.Schema(
 
         status: {
             type: String,
-            enum: ["Placed", "Pending", "Processing", "Shipped", "Delivered"],
-            default: "Placed",
+            enum: [
+                "Pending Approval",
+                "Placed",
+                "Pending",
+                "Processing",
+                "Shipped",
+                "Delivered",
+            ],
+            default: "Pending Approval",
+        },
+
+        // Set true the first time this order's stock is actually deducted
+        // (when it leaves "Pending Approval"), so re-saving/changing the
+        // status again later never double-deducts.
+        stockDecremented: {
+            type: Boolean,
+            default: false,
         },
     },
     {

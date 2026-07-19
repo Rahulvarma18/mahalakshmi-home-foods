@@ -2,73 +2,6 @@ import mongoose from "mongoose";
 import Product from "../models/Product.js";
 import Order from "../models/Order.js";
 
-// ======================
-// Upload product image(s) to Cloudinary (admin only)
-// Actual upload happens in multer's CloudinaryStorage (see
-// middleware/uploadMiddleware.js) before this handler even runs — by the
-// time we get here the file already lives on Cloudinary and req.file/
-// req.files just contains the resulting metadata.
-// ======================
-
-export const uploadProductImage = async (req, res) => {
-
-    try {
-
-        if (!req.file) {
-
-            return res.status(400).json({
-                message: "No image file received.",
-            });
-
-        }
-
-        // multer-storage-cloudinary puts the Cloudinary secure_url on `path`
-        // and the public_id (needed later if you ever want to delete it) on
-        // `filename`.
-        res.status(201).json({
-            url: req.file.path,
-            publicId: req.file.filename,
-        });
-
-    } catch (err) {
-
-        res.status(500).json({
-            message: err.message,
-        });
-
-    }
-
-};
-
-export const uploadProductGalleryImages = async (req, res) => {
-
-    try {
-
-        if (!req.files || req.files.length === 0) {
-
-            return res.status(400).json({
-                message: "No image files received.",
-            });
-
-        }
-
-        const images = req.files.map((f) => ({
-            url: f.path,
-            publicId: f.filename,
-        }));
-
-        res.status(201).json({ images });
-
-    } catch (err) {
-
-        res.status(500).json({
-            message: err.message,
-        });
-
-    }
-
-};
-
 // Finds a product by its URL slug (Product.id, e.g. "special-laddu") OR
 // by its Mongo _id. The Product page and most routes use the slug, but
 // Order.items only ever stores the Mongo _id (older orders don't have
@@ -86,6 +19,37 @@ async function findProductByIdOrSlug(idOrSlug) {
     return product;
 
 }
+
+// ======================
+// Upload Product Image (admin only)
+// Runs behind the Cloudinary multer middleware — by the time this
+// handler runs, the file has already been uploaded to Cloudinary and
+// req.file.path is the resulting secure URL.
+// ======================
+
+export const uploadProductImage = async (req, res) => {
+
+    try {
+
+        if (!req.file) {
+
+            return res.status(400).json({
+                message: "No image file was provided",
+            });
+
+        }
+
+        res.json({ url: req.file.path });
+
+    } catch (err) {
+
+        res.status(500).json({
+            message: err.message,
+        });
+
+    }
+
+};
 
 export const getProducts = async (req, res) => {
 

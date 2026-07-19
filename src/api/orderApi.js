@@ -36,10 +36,10 @@ export const updateOrderStatus = async (id, status) => {
 
 };
 
-// Admin only — dashboard totals for the Admin panel.
-export const getSalesStats = async () => {
+// Admin only — dashboard totals for the Admin panel. days: 7 | 14 | 30 | 90
+export const getSalesStats = async (days = 7) => {
 
-    const res = await API.get("/orders/stats");
+    const res = await API.get("/orders/stats", { params: { days } });
 
     return res.data;
 
