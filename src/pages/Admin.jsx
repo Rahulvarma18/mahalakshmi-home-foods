@@ -139,6 +139,18 @@ function formToPayload(f) {
     };
 }
 
+// Compact number formatting for chart axes, e.g. 800, 12.5k, 3.2L.
+function formatCompactINR(value) {
+    const n = Number(value) || 0;
+    const abs = Math.abs(n);
+
+    if (abs >= 10000000) return `${(n / 10000000).toFixed(1).replace(/\.0$/, "")}Cr`;
+    if (abs >= 100000) return `${(n / 100000).toFixed(1).replace(/\.0$/, "")}L`;
+    if (abs >= 1000) return `${(n / 1000).toFixed(1).replace(/\.0$/, "")}k`;
+
+    return `${n}`;
+}
+
 function priceRange(product) {
     const prices = (product.variants || []).map((v) => v.price).filter((n) => typeof n === "number");
 
@@ -545,7 +557,7 @@ function Admin() {
                                 </div>
 
                                 <ResponsiveContainer width="100%" height={220}>
-                                    <AreaChart data={stats.salesByRange} margin={{ left: -20, right: 10 }}>
+                                    <AreaChart data={stats.salesByRange} margin={{ left: 0, right: 10 }}>
                                         <defs>
                                             <linearGradient id="salesFill" x1="0" y1="0" x2="0" y2="1">
                                                 <stop offset="0%" stopColor="#8b1e24" stopOpacity={0.35} />
@@ -569,10 +581,11 @@ function Admin() {
                                         />
 
                                         <YAxis
+                                            tickFormatter={(value) => `₹${formatCompactINR(value)}`}
                                             tick={{ fontSize: 12, fill: "#64554d" }}
                                             axisLine={false}
                                             tickLine={false}
-                                            width={50}
+                                            width={64}
                                         />
 
                                         <Tooltip
@@ -880,7 +893,9 @@ function Admin() {
                                         </p>
 
                                         <p className="text-xs text-brand-muted">
-                                            {order.date}
+                                            {order.createdAt
+                                                ? new Date(order.createdAt).toLocaleString()
+                                                : ""}
                                         </p>
 
                                     </div>
@@ -888,7 +903,7 @@ function Admin() {
                                     <div className="flex items-center gap-3">
 
                                         <span className="font-semibold">
-                                            ₹{order.total}
+                                            ₹{order.total.toLocaleString("en-IN")}
                                         </span>
 
                                         <select
