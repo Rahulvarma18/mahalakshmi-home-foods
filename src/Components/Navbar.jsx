@@ -196,10 +196,7 @@ const Navbar = () => {
 
             {/* Mobile Navigation */}
             {open && (
-                <nav className={`lg:hidden border-t transition-colors duration-300 px-5 py-4 flex flex-col gap-3 ${isHome && !scrolled
-                        ? "border-white/10 bg-black/20 backdrop-blur-sm"
-                        : "border-gray-700 bg-brand-dark"
-                    }`}>
+                <nav className={`lg:hidden border-t transition-colors duration-300 px-5 py-4 flex flex-col gap-3 bg-brand-dark border-gray-700`}>
                     {nav.map((item) => (
                         <Link
                             key={item.to}
