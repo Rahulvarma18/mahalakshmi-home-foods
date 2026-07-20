@@ -114,120 +114,120 @@ export default function Hero() {
  * so it renders instantly and acts as a safety net under the real video.
  * Respects prefers-reduced-motion by freezing all animation.
  */
-function GheePourBackdrop() {
-    return (
-        <div className="absolute inset-0" aria-hidden="true">
-            <svg
-                className="size-full"
-                viewBox="0 0 1200 800"
-                preserveAspectRatio="xMidYMid slice">
-                <defs>
-                    <linearGradient id="streamGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#f3c877" />
-                        <stop offset="55%" stopColor="#e2a545" />
-                        <stop offset="100%" stopColor="#b5772b" />
-                    </linearGradient>
-                    <radialGradient id="poolGrad" cx="50%" cy="35%" r="65%">
-                        <stop offset="0%" stopColor="#f6d385" />
-                        <stop offset="55%" stopColor="#d99a3f" />
-                        <stop offset="100%" stopColor="#8a5a20" />
-                    </radialGradient>
-                    <radialGradient id="glowAmber" cx="50%" cy="50%" r="50%">
-                        <stop offset="0%" stopColor="#e2914a" stopOpacity="0.35" />
-                        <stop offset="100%" stopColor="#e2914a" stopOpacity="0" />
-                    </radialGradient>
-                    <radialGradient id="glowMaroon" cx="50%" cy="50%" r="50%">
-                        <stop offset="0%" stopColor="#8b2f2f" stopOpacity="0.3" />
-                        <stop offset="100%" stopColor="#8b2f2f" stopOpacity="0" />
-                    </radialGradient>
-                    <filter id="softBlur">
-                        <feGaussianBlur stdDeviation="30" />
-                    </filter>
-                </defs>
+// function GheePourBackdrop() {
+//     return (
+//         <div className="absolute inset-0" aria-hidden="true">
+//             <svg
+//                 className="size-full"
+//                 viewBox="0 0 1200 800"
+//                 preserveAspectRatio="xMidYMid slice">
+//                 <defs>
+//                     <linearGradient id="streamGrad" x1="0" y1="0" x2="0" y2="1">
+//                         <stop offset="0%" stopColor="#f3c877" />
+//                         <stop offset="55%" stopColor="#e2a545" />
+//                         <stop offset="100%" stopColor="#b5772b" />
+//                     </linearGradient>
+//                     <radialGradient id="poolGrad" cx="50%" cy="35%" r="65%">
+//                         <stop offset="0%" stopColor="#f6d385" />
+//                         <stop offset="55%" stopColor="#d99a3f" />
+//                         <stop offset="100%" stopColor="#8a5a20" />
+//                     </radialGradient>
+//                     <radialGradient id="glowAmber" cx="50%" cy="50%" r="50%">
+//                         <stop offset="0%" stopColor="#e2914a" stopOpacity="0.35" />
+//                         <stop offset="100%" stopColor="#e2914a" stopOpacity="0" />
+//                     </radialGradient>
+//                     <radialGradient id="glowMaroon" cx="50%" cy="50%" r="50%">
+//                         <stop offset="0%" stopColor="#8b2f2f" stopOpacity="0.3" />
+//                         <stop offset="100%" stopColor="#8b2f2f" stopOpacity="0" />
+//                     </radialGradient>
+//                     <filter id="softBlur">
+//                         <feGaussianBlur stdDeviation="30" />
+//                     </filter>
+//                 </defs>
 
-                <circle className="ghee-glow-a" cx="900" cy="220" r="260" fill="url(#glowAmber)" filter="url(#softBlur)" />
-                <circle className="ghee-glow-b" cx="760" cy="560" r="220" fill="url(#glowMaroon)" filter="url(#softBlur)" />
+//                 <circle className="ghee-glow-a" cx="900" cy="220" r="260" fill="url(#glowAmber)" filter="url(#softBlur)" />
+//                 <circle className="ghee-glow-b" cx="760" cy="560" r="220" fill="url(#glowMaroon)" filter="url(#softBlur)" />
 
-                <g className="ghee-stream-wobble">
-                    <rect x="845" y="-40" width="20" height="560" rx="10" fill="url(#streamGrad)" opacity="0.9" />
-                </g>
+//                 <g className="ghee-stream-wobble">
+//                     <rect x="845" y="-40" width="20" height="560" rx="10" fill="url(#streamGrad)" opacity="0.9" />
+//                 </g>
 
-                <circle className="ghee-drop ghee-drop-1" cx="855" cy="0" r="7" fill="#f0c368" />
-                <circle className="ghee-drop ghee-drop-2" cx="855" cy="0" r="6" fill="#e9b452" />
-                <circle className="ghee-drop ghee-drop-3" cx="855" cy="0" r="8" fill="#f3c877" />
+//                 <circle className="ghee-drop ghee-drop-1" cx="855" cy="0" r="7" fill="#f0c368" />
+//                 <circle className="ghee-drop ghee-drop-2" cx="855" cy="0" r="6" fill="#e9b452" />
+//                 <circle className="ghee-drop ghee-drop-3" cx="855" cy="0" r="8" fill="#f3c877" />
 
-                <ellipse cx="855" cy="522" rx="86" ry="20" fill="url(#poolGrad)" />
-                <ellipse cx="855" cy="522" rx="86" ry="20" fill="none" stroke="#f6d385" strokeOpacity="0.4" strokeWidth="1.5" />
+//                 <ellipse cx="855" cy="522" rx="86" ry="20" fill="url(#poolGrad)" />
+//                 <ellipse cx="855" cy="522" rx="86" ry="20" fill="none" stroke="#f6d385" strokeOpacity="0.4" strokeWidth="1.5" />
 
-                <ellipse className="ghee-ripple ghee-ripple-1" cx="855" cy="522" rx="40" ry="10" fill="none" stroke="#f3c877" strokeWidth="2" />
-                <ellipse className="ghee-ripple ghee-ripple-2" cx="855" cy="522" rx="40" ry="10" fill="none" stroke="#f3c877" strokeWidth="2" />
-                <ellipse className="ghee-ripple ghee-ripple-3" cx="855" cy="522" rx="40" ry="10" fill="none" stroke="#f3c877" strokeWidth="2" />
-            </svg>
+//                 <ellipse className="ghee-ripple ghee-ripple-1" cx="855" cy="522" rx="40" ry="10" fill="none" stroke="#f3c877" strokeWidth="2" />
+//                 <ellipse className="ghee-ripple ghee-ripple-2" cx="855" cy="522" rx="40" ry="10" fill="none" stroke="#f3c877" strokeWidth="2" />
+//                 <ellipse className="ghee-ripple ghee-ripple-3" cx="855" cy="522" rx="40" ry="10" fill="none" stroke="#f3c877" strokeWidth="2" />
+//             </svg>
 
-            <style>{`
-                .ghee-stream-wobble {
-                    transform-origin: 855px 0px;
-                    animation: streamWobble 3.2s ease-in-out infinite;
-                }
-                @keyframes streamWobble {
-                    0%, 100% { transform: translateX(0) scaleX(1); }
-                    50% { transform: translateX(4px) scaleX(0.92); }
-                }
+//             <style>{`
+//                 .ghee-stream-wobble {
+//                     transform-origin: 855px 0px;
+//                     animation: streamWobble 3.2s ease-in-out infinite;
+//                 }
+//                 @keyframes streamWobble {
+//                     0%, 100% { transform: translateX(0) scaleX(1); }
+//                     50% { transform: translateX(4px) scaleX(0.92); }
+//                 }
 
-                .ghee-drop {
-                    animation: dropFall 3.2s ease-in infinite;
-                    opacity: 0;
-                }
-                .ghee-drop-1 { animation-delay: 0s; }
-                .ghee-drop-2 { animation-delay: 1.05s; }
-                .ghee-drop-3 { animation-delay: 2.1s; }
-                @keyframes dropFall {
-                    0% { transform: translateY(0); opacity: 0; }
-                    8% { opacity: 1; }
-                    88% { opacity: 1; }
-                    100% { transform: translateY(520px); opacity: 0; }
-                }
+//                 .ghee-drop {
+//                     animation: dropFall 3.2s ease-in infinite;
+//                     opacity: 0;
+//                 }
+//                 .ghee-drop-1 { animation-delay: 0s; }
+//                 .ghee-drop-2 { animation-delay: 1.05s; }
+//                 .ghee-drop-3 { animation-delay: 2.1s; }
+//                 @keyframes dropFall {
+//                     0% { transform: translateY(0); opacity: 0; }
+//                     8% { opacity: 1; }
+//                     88% { opacity: 1; }
+//                     100% { transform: translateY(520px); opacity: 0; }
+//                 }
 
-                .ghee-ripple {
-                    transform-origin: 855px 522px;
-                    animation: rippleGrow 3.2s ease-out infinite;
-                    opacity: 0;
-                }
-                .ghee-ripple-1 { animation-delay: 0.3s; }
-                .ghee-ripple-2 { animation-delay: 1.35s; }
-                .ghee-ripple-3 { animation-delay: 2.4s; }
-                @keyframes rippleGrow {
-                    0% { transform: scale(0.3); opacity: 0.55; }
-                    100% { transform: scale(2.4); opacity: 0; }
-                }
+//                 .ghee-ripple {
+//                     transform-origin: 855px 522px;
+//                     animation: rippleGrow 3.2s ease-out infinite;
+//                     opacity: 0;
+//                 }
+//                 .ghee-ripple-1 { animation-delay: 0.3s; }
+//                 .ghee-ripple-2 { animation-delay: 1.35s; }
+//                 .ghee-ripple-3 { animation-delay: 2.4s; }
+//                 @keyframes rippleGrow {
+//                     0% { transform: scale(0.3); opacity: 0.55; }
+//                     100% { transform: scale(2.4); opacity: 0; }
+//                 }
 
-                .ghee-glow-a {
-                    animation: glowDriftA 22s ease-in-out infinite alternate;
-                }
-                .ghee-glow-b {
-                    animation: glowDriftB 26s ease-in-out infinite alternate;
-                }
-                @keyframes glowDriftA {
-                    0% { transform: translate(0, 0); }
-                    100% { transform: translate(-30px, 20px); }
-                }
-                @keyframes glowDriftB {
-                    0% { transform: translate(0, 0); }
-                    100% { transform: translate(25px, -15px); }
-                }
+//                 .ghee-glow-a {
+//                     animation: glowDriftA 22s ease-in-out infinite alternate;
+//                 }
+//                 .ghee-glow-b {
+//                     animation: glowDriftB 26s ease-in-out infinite alternate;
+//                 }
+//                 @keyframes glowDriftA {
+//                     0% { transform: translate(0, 0); }
+//                     100% { transform: translate(-30px, 20px); }
+//                 }
+//                 @keyframes glowDriftB {
+//                     0% { transform: translate(0, 0); }
+//                     100% { transform: translate(25px, -15px); }
+//                 }
 
-                @media (prefers-reduced-motion: reduce) {
-                    .ghee-stream-wobble,
-                    .ghee-drop,
-                    .ghee-ripple,
-                    .ghee-glow-a,
-                    .ghee-glow-b {
-                        animation: none !important;
-                    }
-                    .ghee-drop { opacity: 0.9; }
-                    .ghee-ripple { opacity: 0.25; transform: scale(1); }
-                }
-            `}</style>
-        </div>
-    )
-}
+//                 @media (prefers-reduced-motion: reduce) {
+//                     .ghee-stream-wobble,
+//                     .ghee-drop,
+//                     .ghee-ripple,
+//                     .ghee-glow-a,
+//                     .ghee-glow-b {
+//                         animation: none !important;
+//                     }
+//                     .ghee-drop { opacity: 0.9; }
+//                     .ghee-ripple { opacity: 0.25; transform: scale(1); }
+//                 }
+//             `}</style>
+//         </div>
+//     )
+// }
