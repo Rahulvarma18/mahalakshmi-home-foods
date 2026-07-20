@@ -22,20 +22,14 @@ export default function Hero() {
     }, [])
 
     return (
-        <section className="relative flex min-h-screen w-full items-center overflow-hidden bg-[#0a0d16]">
-            {/* Animated ghee-pour backdrop — always rendered as a safety net.
-                Sits underneath the video and shows through instantly if the
-                video is slow to load, or permanently if it fails. */}
-            {/* <GheePourBackdrop /> */}
-
-            {/* Real laddu footage on top */}
+        <section id="hero-section" className="relative -mt-[80px] flex min-h-screen w-full items-center overflow-hidden bg-[#0a0d16]">
+            {/* Background video layer that extends behind navbar */}
             {!videoFailed && (
                 <video
                     ref={videoRef}
                     className="absolute inset-0 size-full object-cover"
                     style={{ objectPosition: 'center 35%' }}
                     src={VIDEO_SRC}
-                    // poster={POSTER_SRC}
                     autoPlay
                     muted
                     loop
@@ -50,7 +44,7 @@ export default function Hero() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-black/15" />
 
             {/* Copy */}
-            <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pt-24 lg:px-12">
+            <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pt-[80px] lg:px-12">
                 <div className="max-w-xl">
                     <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-[#d9a353]">
                         Godavari Heritage

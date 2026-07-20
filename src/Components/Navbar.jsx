@@ -1,6 +1,6 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FaShoppingBag, FaUserCircle, FaBars, FaTimes } from "react-icons/fa";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
 import logo from "../assets/logo.png";
@@ -18,9 +18,35 @@ const Navbar = () => {
     const { user, logout } = useAuth();
 
     const navigate = useNavigate();
+    const location = useLocation();
 
     const [open, setOpen] = useState(false);
     const [menu, setMenu] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
+
+    const isHome = location.pathname === "/";
+
+    useEffect(() => {
+        if (!isHome) return;
+
+        // Detect when hero section ends by checking scroll position
+        // Hero is min-h-screen, so keep glass navbar until we scroll past it
+        const onScroll = () => {
+            const heroSection = document.getElementById("hero-section");
+            if (!heroSection) return;
+
+            // Get the bottom of the hero section
+            const heroBottom = heroSection.offsetHeight;
+
+            // Show glass navbar while we're in/near hero (with 200px buffer)
+            setScrolled(window.scrollY > heroBottom - 200);
+        };
+
+        window.addEventListener("scroll", onScroll);
+        onScroll(); // Call once on mount
+
+        return () => window.removeEventListener("scroll", onScroll);
+    }, [isHome]);
 
     const handleLogout = async () => {
         await logout();
@@ -28,9 +54,22 @@ const Navbar = () => {
         navigate("/");
     };
 
+    const textColor = "text-white";
+    const mutedColor = "text-white/70";
+
     return (
-        <header className="sticky top-0 z-40 bg-cream/85 backdrop-blur-md border-b border-brand-border">
-            <div className="max-w-[1400px] mx-auto flex items-center justify-between px-5 md:px-10 py-4">
+        <header className={`sticky top-0 z-40 transition-all duration-300 ${isHome && !scrolled
+                ? "bg-white/5 backdrop-blur-sm border-b border-white/10"
+                : "bg-[#3d1f1f] backdrop-blur-md border-b border-gray-700 shadow-lg"
+            }`}>
+            <div
+                className="max-w-[1400px] mx-auto flex items-center justify-between px-5 md:px-10 py-4"
+                style={
+                    isHome && !scrolled
+                        ? { filter: "drop-shadow(0 1px 5px rgba(0,0,0,0.6))" }
+                        : undefined
+                }
+            >
 
                 {/* Logo */}
                 <Link to="/" className="flex items-center gap-3">
@@ -41,11 +80,11 @@ const Navbar = () => {
                     />
 
                     <div className="leading-tight">
-                        <h1 className="font-serif text-xl text-brand-dark">
+                        <h1 className={`font-serif text-xl transition-colors duration-300 ${textColor}`}>
                             Mahalakshmi
                         </h1>
 
-                        <p className="text-[10px] tracking-[0.3em] text-brand-muted">
+                        <p className={`text-[10px] tracking-[0.3em] transition-colors duration-300 ${mutedColor}`}>
                             HOME FOODS
                         </p>
                     </div>
@@ -57,7 +96,7 @@ const Navbar = () => {
                         <Link
                             key={item.to}
                             to={item.to}
-                            className="group relative text-sm text-brand-dark hover:text-brand-maroon transition-colors"
+                            className={`group relative text-sm transition-colors duration-300 ${textColor} hover:text-brand-maroon`}
                         >
                             {item.label}
 
@@ -74,7 +113,7 @@ const Navbar = () => {
                         {user ? (
                             <button
                                 onClick={() => setMenu(!menu)}
-                                className="flex items-center gap-2 text-brand-dark hover:text-brand-maroon"
+                                className={`flex items-center gap-2 transition-colors duration-300 ${textColor} hover:text-brand-maroon`}
                             >
                                 <FaUserCircle className="w-6 h-6" />
 
@@ -85,7 +124,7 @@ const Navbar = () => {
                         ) : (
                             <Link
                                 to="/auth"
-                                className="flex items-center gap-2 text-brand-dark hover:text-brand-maroon"
+                                className={`flex items-center gap-2 transition-colors duration-300 ${textColor} hover:text-brand-maroon`}
                             >
                                 <FaUserCircle className="w-6 h-6" />
 
@@ -129,7 +168,7 @@ const Navbar = () => {
                     {/* Cart */}
                     <Link
                         to="/cart"
-                        className="relative text-brand-dark hover:text-brand-maroon"
+                        className={`relative transition-colors duration-300 ${textColor} hover:text-brand-maroon`}
                     >
                         <FaShoppingBag className="w-6 h-6" />
 
@@ -142,7 +181,7 @@ const Navbar = () => {
 
                     {/* Mobile Menu Button */}
                     <button
-                        className="lg:hidden text-brand-dark"
+                        className={`lg:hidden transition-colors duration-300 ${textColor}`}
                         onClick={() => setOpen(!open)}
                     >
                         {open ? (
@@ -157,13 +196,16 @@ const Navbar = () => {
 
             {/* Mobile Navigation */}
             {open && (
-                <nav className="lg:hidden border-t border-brand-border bg-cream px-5 py-4 flex flex-col gap-3">
+                <nav className={`lg:hidden border-t transition-colors duration-300 px-5 py-4 flex flex-col gap-3 ${isHome && !scrolled
+                        ? "border-white/10 bg-black/20 backdrop-blur-sm"
+                        : "border-gray-700 bg-[#3d1f1f]"
+                    }`}>
                     {nav.map((item) => (
                         <Link
                             key={item.to}
                             to={item.to}
                             onClick={() => setOpen(false)}
-                            className="text-brand-dark hover:text-brand-maroon"
+                            className="text-white hover:text-[#d9a353] transition-colors"
                         >
                             {item.label}
                         </Link>
