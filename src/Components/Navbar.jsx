@@ -60,7 +60,7 @@ const Navbar = () => {
     return (
         <header className={`sticky top-0 z-40 transition-all duration-300 ${isHome && !scrolled
                 ? "bg-white/5 backdrop-blur-sm border-b border-white/10"
-                : "bg-[#3d1f1f] backdrop-blur-md border-b border-gray-700 shadow-lg"
+                : "bg-brand-dark backdrop-blur-md border-b border-gray-700 shadow-lg"
             }`}>
             <div
                 className="max-w-[1400px] mx-auto flex items-center justify-between px-5 md:px-10 py-4"
@@ -198,7 +198,7 @@ const Navbar = () => {
             {open && (
                 <nav className={`lg:hidden border-t transition-colors duration-300 px-5 py-4 flex flex-col gap-3 ${isHome && !scrolled
                         ? "border-white/10 bg-black/20 backdrop-blur-sm"
-                        : "border-gray-700 bg-[#3d1f1f]"
+                        : "border-gray-700 bg-brand-dark"
                     }`}>
                     {nav.map((item) => (
                         <Link
