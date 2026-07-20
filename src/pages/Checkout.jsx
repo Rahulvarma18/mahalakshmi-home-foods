@@ -85,12 +85,15 @@ function Checkout() {
 
     const total = subtotal + shipping;
 
+    const isPhoneValid = /^\d{10}$/.test(form.phone);
+    const isPincodeValid = /^\d{6}$/.test(form.pincode);
+
     const canPlace =
         form.name &&
-        form.phone.length >= 10 &&
+        isPhoneValid &&
         form.line1 &&
         form.city &&
-        form.pincode.length >= 6;
+        isPincodeValid;
 
     const placeOrder = async (whatsappWindow) => {
         if (placingOrder) return;
@@ -247,8 +250,14 @@ function Checkout() {
                                 onChange={(v) =>
                                     setForm({
                                         ...form,
-                                        phone: v,
+                                        phone: v.replace(/\D/g, "").slice(0, 10),
                                     })
+                                }
+                                inputMode="numeric"
+                                error={
+                                    form.phone && !isPhoneValid
+                                        ? "Enter a valid 10-digit phone number"
+                                        : ""
                                 }
                             />
 
@@ -284,8 +293,14 @@ function Checkout() {
                                 onChange={(v) =>
                                     setForm({
                                         ...form,
-                                        pincode: v,
+                                        pincode: v.replace(/\D/g, "").slice(0, 6),
                                     })
+                                }
+                                inputMode="numeric"
+                                error={
+                                    form.pincode && !isPincodeValid
+                                        ? "Enter a valid 6-digit pincode"
+                                        : ""
                                 }
                             />
 
@@ -470,6 +485,8 @@ function Field({
     label,
     value,
     onChange,
+    inputMode,
+    error,
 }) {
     return (
         <label className="block">
@@ -483,8 +500,18 @@ function Field({
                 onChange={(e) =>
                     onChange(e.target.value)
                 }
-                className="w-full rounded-md border border-brand-border bg-cream px-4 py-3 focus:border-brand-maroon focus:outline-none"
+                inputMode={inputMode}
+                className={`w-full rounded-md border bg-cream px-4 py-3 focus:outline-none ${error
+                        ? "border-red-500 focus:border-red-500"
+                        : "border-brand-border focus:border-brand-maroon"
+                    }`}
             />
+
+            {error && (
+                <span className="mt-1 block text-xs text-red-600">
+                    {error}
+                </span>
+            )}
 
         </label>
     );
