@@ -26,7 +26,7 @@ export default function Hero() {
             {/* Animated ghee-pour backdrop — always rendered as a safety net.
                 Sits underneath the video and shows through instantly if the
                 video is slow to load, or permanently if it fails. */}
-            <GheePourBackdrop />
+            {/* <GheePourBackdrop /> */}
 
             {/* Real laddu footage on top */}
             {!videoFailed && (
