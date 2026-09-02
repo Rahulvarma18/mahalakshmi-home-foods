@@ -59,8 +59,8 @@ const Navbar = () => {
 
     return (
         <header className={`sticky top-0 z-40 transition-all duration-300 ${isHome && !scrolled
-                ? "bg-white/5 backdrop-blur-sm border-b border-white/10"
-                : "bg-brand-dark backdrop-blur-md border-b border-gray-700 shadow-lg"
+            ? "bg-white/5 backdrop-blur-sm border-b border-white/10"
+            : "bg-brand-dark backdrop-blur-md border-b border-gray-700 shadow-lg"
             }`}>
             <div
                 className="max-w-[1400px] mx-auto flex items-center justify-between px-5 md:px-10 py-4"
@@ -75,13 +75,13 @@ const Navbar = () => {
                 <Link to="/" className="flex items-center gap-3">
                     <img
                         src={logo}
-                        alt="Mahalakshmi Home Foods"
+                        alt="Maharuchulu"
                         className="w-11 h-11 rounded-full object-cover"
                     />
 
                     <div className="leading-tight">
                         <h1 className={`font-serif text-xl transition-colors duration-300 ${textColor}`}>
-                            Mahalakshmi
+                            Maharuchulu
                         </h1>
 
                         <p className={`text-[10px] tracking-[0.3em] transition-colors duration-300 ${mutedColor}`}>

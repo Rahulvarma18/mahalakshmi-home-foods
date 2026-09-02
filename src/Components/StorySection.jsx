@@ -32,7 +32,7 @@ const StorySection = () => {
                     </h2>
 
                     <p className="text-brand-muted text-lg leading-relaxed mb-4">
-                        Three generations of the Mahalakshmi kitchen have preserved the
+                        Three generations of the Maharuchulu kitchen have preserved the
                         soul of Andhra home cooking — slow-cooked jaggery syrups,
                         hand-rolled boondi, and ghee pressed in small copper vessels.
                     </p>

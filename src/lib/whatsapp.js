@@ -11,7 +11,7 @@ export function openWhatsAppOrder(targetWindow, { rows, address, subtotal, shipp
 
     const lines = [];
 
-    lines.push("Hi Mahalakshmi Home Foods! I'd like to place an order:");
+    lines.push("Hi Maharuchulu! I'd like to place an order:");
     lines.push("");
 
     rows.forEach((row, i) => {

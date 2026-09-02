@@ -4,7 +4,7 @@ import { FaWhatsapp } from "react-icons/fa";
 // Update this if the number ever changes.
 const WHATSAPP_NUMBER = "917780367903";
 const DEFAULT_MESSAGE =
-    "Hi Mahalakshmi Home Foods! I'd like to know more about your products.";
+    "Hi Maharuchulu! I'd like to know more about your products.";
 
 function WhatsAppButton() {
     const href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(

@@ -20,13 +20,13 @@ const Footer = () => {
                     <div className="flex items-center gap-4 mb-6">
                         <img
                             src={logo}
-                            alt="Mahalakshmi Home Foods"
+                            alt="Maharuchulu"
                             className="w-16 h-16 rounded-full object-cover bg-white/5"
                         />
 
                         <div>
                             <h2 className="font-serif text-3xl">
-                                Mahalakshmi
+                                Maharuchulu
                             </h2>
 
                             <p className="text-xs tracking-[0.25em] text-white/60">
@@ -158,7 +158,7 @@ const Footer = () => {
             </div>
 
             <div className="max-w-[1400px] mx-auto mt-16 pt-8 border-t border-white/10 text-center text-white/50 text-sm">
-                © {new Date().getFullYear()} Mahalakshmi Home Foods. Crafted with love
+                © {new Date().getFullYear()} Maharuchulu. Crafted with love
                 from the Godavari.
             </div>
         </footer>

@@ -12,7 +12,7 @@ function About() {
                     <p className="eyebrow mb-3">Who We Are</p>
 
                     <h1 className="font-serif text-4xl md:text-5xl text-brand-dark mb-6">
-                        About Mahalakshmi Home Foods
+                        About Maharuchulu
                     </h1>
 
                     <p className="text-brand-muted text-lg leading-relaxed">
@@ -26,7 +26,7 @@ function About() {
                 <div className="grid lg:grid-cols-2 gap-14 items-center mb-20">
                     <img
                         src={hero}
-                        alt="Mahalakshmi Home Foods kitchen"
+                        alt="Maharuchulu kitchen"
                         loading="lazy"
                         className="w-full aspect-[5/4] object-cover rounded-md"
                     />
