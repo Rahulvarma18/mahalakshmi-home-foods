@@ -43,6 +43,7 @@ const CATEGORIES = [
     "Traditional Sweets",
     "Traditional Snacks",
     "Healthy Sweets",
+    "Pickles",
     "Future Products",
 ];
 
