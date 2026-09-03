@@ -10,6 +10,7 @@ const nav = [
     { to: "/shop", label: "Shop" },
     { to: "/shop?category=Traditional+Sweets", label: "Sweets" },
     { to: "/shop?category=Traditional+Snacks", label: "Snacks" },
+    { to: "/shop?category=Pickles", label: "Pickles" },
     { to: "/shop?category=Healthy+Sweets", label: "Healthy" },
 ];
 
@@ -59,8 +60,8 @@ const Navbar = () => {
 
     return (
         <header className={`sticky top-0 z-40 transition-all duration-300 ${isHome && !scrolled
-            ? "bg-white/5 backdrop-blur-sm border-b border-white/10"
-            : "bg-brand-dark backdrop-blur-md border-b border-gray-700 shadow-lg"
+                ? "bg-white/5 backdrop-blur-sm border-b border-white/10"
+                : "bg-brand-dark backdrop-blur-md border-b border-gray-700 shadow-lg"
             }`}>
             <div
                 className="max-w-[1400px] mx-auto flex items-center justify-between px-5 md:px-10 py-4"
