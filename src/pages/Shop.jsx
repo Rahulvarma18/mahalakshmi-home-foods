@@ -8,10 +8,10 @@ import ProductCard from "../Components/ProductCard";
 
 const CATEGORIES = [
     "All",
-    "Traditional Sweets",
-    "Traditional Snacks",
-    "Healthy Sweets",
-    "Pickles",
+    "Vegetable Pickles",
+    "Non-Veg Pickles",
+    "Sweets",
+    "Snacks",
     "Future Products",
 ];
 
@@ -120,7 +120,8 @@ function Shop() {
 
                     <p className="mt-5 text-brand-muted max-w-2xl mx-auto">
 
-                        Discover authentic Godavari sweets, crunchy snacks and healthy homemade delicacies crafted with love.
+                        Discover authentic Godavari pickles, homemade with sun-dried
+                        vegetables, hand-ground spices and cold-pressed oil.
 
                     </p>
 
@@ -141,7 +142,7 @@ function Shop() {
 
                         <input
                             type="text"
-                            placeholder="Search sweets, snacks..."
+                            placeholder="Search pickles..."
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             className="w-full rounded-full border border-brand-border bg-white py-4 pl-14 pr-5 shadow-sm outline-none transition-all focus:border-brand-maroon focus:ring-2 focus:ring-brand-maroon/20"

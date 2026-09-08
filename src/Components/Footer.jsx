@@ -37,7 +37,7 @@ const Footer = () => {
 
                     <p className="text-white/70 leading-relaxed mb-6 max-w-md">
                         Bringing the authentic taste of Godavari homes to families across
-                        India through handcrafted sweets, snacks and traditional recipes.
+                        India through handcrafted, traditional pickles.
                     </p>
 
                     <div className="flex gap-4">
@@ -62,28 +62,28 @@ const Footer = () => {
                     <ul className="space-y-3 text-white/70">
                         <li>
                             <Link
-                                to="/shop?category=Traditional%20Sweets"
+                                to="/shop?category=Vegetable%20Pickles"
                                 className="hover:text-brand-orange"
                             >
-                                Traditional Sweets
+                                Vegetable Pickles
                             </Link>
                         </li>
 
                         <li>
                             <Link
-                                to="/shop?category=Traditional%20Snacks"
+                                to="/shop?category=Non-Veg%20Pickles"
                                 className="hover:text-brand-orange"
                             >
-                                Traditional Snacks
+                                Non-Veg Pickles
                             </Link>
                         </li>
 
                         <li>
                             <Link
-                                to="/shop?category=Healthy%20Sweets"
+                                to="/shop?category=Sweets"
                                 className="hover:text-brand-orange"
                             >
-                                Healthy Sweets
+                                Sweets
                             </Link>
                         </li>
 

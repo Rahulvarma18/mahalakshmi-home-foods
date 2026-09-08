@@ -1,71 +1,86 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React from 'react'
+import { motion } from 'framer-motion'
 import { Button } from './ui/button'
 import { Star, Sparkles, ChevronRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import heroBg from '../assets/hero-pickles-bg.jpg'
 
-const VIDEO_SRC = '/videos/p3.mp4'
-const POSTER_SRC = '/images/hero-poster.jpg'
+// To bring back a video background later, swap the <img> block below for a
+// <video> tag pointing at your generated .mp4 (see the pinned p3.mp4 example
+// in public/videos for the previous implementation).
+
+const fadeUp = {
+    hidden: { opacity: 0, y: 24 },
+    visible: (delay = 0) => ({
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] },
+    }),
+}
 
 export default function Hero() {
-    const videoRef = useRef(null)
-    const [videoFailed, setVideoFailed] = useState(false)
-
-    useEffect(() => {
-        const video = videoRef.current
-        if (!video) return
-        const prefersReducedMotion = window.matchMedia(
-            '(prefers-reduced-motion: reduce)',
-        ).matches
-        if (prefersReducedMotion) {
-            video.pause()
-        }
-    }, [])
-
     return (
-        <section id="hero-section" className="relative -mt-[80px] flex min-h-screen w-full items-center overflow-hidden bg-[#0a0d16]">
-            {/* Background video layer that extends behind navbar */}
-            {!videoFailed && (
-                <video
-                    ref={videoRef}
-                    className="absolute inset-0 size-full object-cover"
-                    style={{ objectPosition: 'center 35%' }}
-                    src={VIDEO_SRC}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    aria-hidden="true"
-                    onError={() => setVideoFailed(true)}
-                />
-            )}
+        <section id="hero-section" className="relative -mt-[80px] flex min-h-[100dvh] w-full items-center overflow-hidden bg-[#0a0d16]">
+            {/* Background image layer that extends behind navbar */}
+            <motion.img
+                src={heroBg}
+                alt=""
+                initial={{ opacity: 0, scale: 1.08 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+                className="absolute inset-0 size-full object-cover"
+                style={{ objectPosition: 'center 45%' }}
+                aria-hidden="true"
+            />
 
             {/* Legibility overlay: darker left where text sits */}
             <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-black/25" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-black/15" />
 
             {/* Copy */}
-            <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pt-[80px] lg:px-12">
+            <div className="relative z-10 mx-auto w-full max-w-[1400px] px-5 pt-[80px] md:px-10">
                 <div className="max-w-xl">
-                    <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-[#d9a353]">
+                    <motion.p
+                        initial="hidden"
+                        animate="visible"
+                        custom={0.15}
+                        variants={fadeUp}
+                        className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-[#d9a353]">
                         Godavari Heritage
                         <span className="text-[#d9a353]/50">·</span>
                         Est. 2026
-                    </p>
+                    </motion.p>
 
-                    <h1 className="mt-8 font-serif text-5xl leading-[1.1] text-[#f5f3ee] md:text-6xl xl:text-7xl">
+                    <motion.h1
+                        initial="hidden"
+                        animate="visible"
+                        custom={0.28}
+                        variants={fadeUp}
+                        className="mt-8 font-serif text-5xl leading-[1.1] text-[#f5f3ee] md:text-6xl xl:text-7xl">
                         Authentic{' '}
                         <span className="italic text-[#c25f56]">Godavari</span>{' '}
                         homemade{' '}
-                        <span className="italic text-[#e2914a]">delicacies.</span>
-                    </h1>
+                        <span className="italic text-[#e2914a]">pickles.</span>
+                    </motion.h1>
 
-                    <p className="mt-8 max-w-md text-balance text-lg leading-relaxed text-[#d8d6d1]">
-                        Slow-cooked in pure cow ghee. Hand-rolled with jaggery and
-                        love. Recipes preserved from village kitchens of the Godavari
-                        — now delivered to your door.
-                    </p>
+                    <motion.p
+                        initial="hidden"
+                        animate="visible"
+                        custom={0.42}
+                        variants={fadeUp}
+                        className="mt-8 max-w-md text-balance text-lg leading-relaxed text-[#d8d6d1]">
+                        Sun-ripened mangoes, hand-ground spices and cold-pressed
+                        sesame oil. Recipes preserved from village kitchens of the
+                        Godavari — pickled the traditional way, now delivered to
+                        your door.
+                    </motion.p>
 
-                    <div className="mt-12 flex flex-col items-start gap-3 sm:flex-row">
+                    <motion.div
+                        initial="hidden"
+                        animate="visible"
+                        custom={0.56}
+                        variants={fadeUp}
+                        className="mt-12 flex flex-col items-start gap-3 sm:flex-row">
                         <Button
                             asChild
                             size="lg"
@@ -84,9 +99,14 @@ export default function Hero() {
                                 <span className="text-nowrap">Our Story</span>
                             </a>
                         </Button>
-                    </div>
+                    </motion.div>
 
-                    <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-[#d8d6d1]">
+                    <motion.div
+                        initial="hidden"
+                        animate="visible"
+                        custom={0.7}
+                        variants={fadeUp}
+                        className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-[#d8d6d1]">
                         <span className="flex items-center gap-1.5">
                             <Star className="size-4 fill-[#d9a353] text-[#d9a353]" />
                             4.9 / 5 · 1200+ Orders
@@ -95,7 +115,7 @@ export default function Hero() {
                             <Sparkles className="size-3.5 text-[#d9a353]" />
                             Free Shipping ₹999+
                         </span>
-                    </div>
+                    </motion.div>
                 </div>
             </div>
         </section>

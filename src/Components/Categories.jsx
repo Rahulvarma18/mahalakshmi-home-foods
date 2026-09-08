@@ -3,26 +3,26 @@ import { motion } from "framer-motion";
 
 import cat1 from "../assets/category1.jpg";
 import cat2 from "../assets/category2.jpg";
-import cat3 from "../assets/category3.jpg";
+import cat3 from "../assets/ab1.jpg";
 
 const cats = [
     {
-        title: "Traditional Sweets",
+        title: "Vegetable Pickles",
         subtitle: "GODAVARI HERITAGE",
         image: cat1,
-        category: "Traditional Sweets",
+        category: "Vegetable Pickles",
     },
     {
-        title: "Traditional Snacks",
-        subtitle: "GODAVARI CRUNCH",
+        title: "Non-Veg Pickles",
+        subtitle: "GODAVARI SPICE",
         image: cat2,
-        category: "Traditional Snacks",
+        category: "Non-Veg Pickles",
     },
     {
-        title: "Healthy Sweets",
+        title: "Sweets",
         subtitle: "WHOLESOME",
         image: cat3,
-        category: "Healthy Sweets",
+        category: "Sweets",
     },
 ];
 

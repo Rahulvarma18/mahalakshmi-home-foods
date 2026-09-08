@@ -10,7 +10,17 @@ const BestSellers = () => {
         const fetchBestSellers = async () => {
             try {
                 const data = await getProducts();
-                setProducts(data.filter((product) => product.bestSeller).slice(0, 4));
+                const bestSellers = data.filter((product) => product.bestSeller);
+
+                const pickles = bestSellers
+                    .filter((product) => product.category?.includes("Pickle"))
+                    .slice(0, 2);
+
+                const sweets = bestSellers
+                    .filter((product) => !product.category?.includes("Pickle"))
+                    .slice(0, 2);
+
+                setProducts([...pickles, ...sweets]);
             } catch (error) {
                 console.error("Failed to load best sellers:", error);
             }

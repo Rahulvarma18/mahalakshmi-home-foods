@@ -40,10 +40,10 @@ import {
 } from "../api/orderApi";
 
 const CATEGORIES = [
-    "Traditional Sweets",
-    "Traditional Snacks",
-    "Healthy Sweets",
-    "Pickles",
+    "Vegetable Pickles",
+    "Non-Veg Pickles",
+    "Sweets",
+    "Snacks",
     "Future Products",
 ];
 
